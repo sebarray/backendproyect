@@ -10,11 +10,10 @@ import (
 	"github.com/sebarray/backendproyect/service"
 )
 
-func PostCard(ctx echo.Context) error {
+func PutCard(ctx echo.Context) error {
 	claims := service.GetJwtClaims(ctx)
 	if claims.Id == "" {
 		return echo.ErrUnauthorized
-
 	}
 	var card model.Card
 
@@ -23,9 +22,8 @@ func PostCard(ctx echo.Context) error {
 		http.Error(ctx.Response().Writer, err.Error(), http.StatusConflict)
 		return err
 	}
-	card.IdUser = claims.Id
 	typedb := cardb.GetProvider(os.Getenv("TYPE_DB"))
-	err = typedb.CreateCard(card)
+	err = typedb.UpdateCard(card)
 	if err != nil {
 		http.Error(ctx.Response().Writer, err.Error(), http.StatusConflict)
 		return err
