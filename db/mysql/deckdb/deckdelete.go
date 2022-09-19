@@ -1,21 +1,21 @@
-package cardb
+package deckdb
 
 import (
 	"fmt"
 
 	"github.com/sebarray/backendproyect/db/mysql"
-	"github.com/sebarray/backendproyect/model"
 )
 
-func (c CardDB) UpdateCard(card model.Card) error {
+func (d DeckDB) DeleteDeck(id string) error {
 
+	querysql := fmt.Sprintf("DELETE FROM deck WHERE id='%s' ;", id)
 	conn := mysql.ConnectionDB()
 	defer conn.Close()
-	insert, err := conn.Prepare(mysql.QueryCardUpdate(card))
+	query, err := conn.Prepare(querysql)
 	if err != nil {
 		return err
 	}
-	result, err := insert.Exec()
+	result, err := query.Exec()
 	if err != nil {
 		return err
 	}

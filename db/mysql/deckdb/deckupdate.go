@@ -1,4 +1,4 @@
-package cardb
+package deckdb
 
 import (
 	"fmt"
@@ -7,11 +7,11 @@ import (
 	"github.com/sebarray/backendproyect/model"
 )
 
-func (c CardDB) UpdateCard(card model.Card) error {
+func (d DeckDB) UpdateDeck(deck model.Deck) error {
 
 	conn := mysql.ConnectionDB()
 	defer conn.Close()
-	insert, err := conn.Prepare(mysql.QueryCardUpdate(card))
+	insert, err := conn.Prepare(mysql.QueryDeckUpdate(deck))
 	if err != nil {
 		return err
 	}

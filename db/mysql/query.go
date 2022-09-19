@@ -15,6 +15,13 @@ func QueryCreateUser(user model.User) string {
 	return query
 
 }
+func QueryCreateDeck(deck model.Deck) string {
+	query := "INSERT INTO deck (id, name, image, iduser) VALUES "
+	query += fmt.Sprintf("('%s', '%s','%s',  '%s'); ",
+		deck.Id, deck.Name, deck.Image, deck.IdUser)
+	return query
+
+}
 func QueryCreateCard(card model.Card) string {
 	query := "INSERT INTO card (id, title, description, image,iduser) VALUES "
 	query += fmt.Sprintf("('%s', '%s','%s',  '%s', '%s'); ",
@@ -26,11 +33,22 @@ func QueryCreateCard(card model.Card) string {
 func QueryReadCard(where string) string {
 	return "select * from card  " + where
 }
+func QueryReaDeck(where string) string {
+	return "select * from deck  " + where
+}
 
 func QueryCardUpdate(card model.Card) string {
 	query := "UPDATE card SET "
 	query += fmt.Sprintf("title='%s',description='%s',image='%s'", card.Title, card.Description, card.Image)
 	query += fmt.Sprintf(" where id = '%s'", card.Id)
+	return query
+
+}
+
+func QueryDeckUpdate(deck model.Deck) string {
+	query := "UPDATE card SET "
+	query += fmt.Sprintf("name='%s',image='%s'", deck.Name, deck.Image)
+	query += fmt.Sprintf(" where id = '%s'", deck.Id)
 	return query
 
 }
