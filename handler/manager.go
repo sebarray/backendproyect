@@ -12,7 +12,9 @@ func Manager() {
 
 	cardRouter := e.Group("/card")
 	userRouter := e.Group("/user")
+	deckRouter := e.Group("/deck")
 
+	router.RouteDeck(deckRouter)
 	router.RouteCard(cardRouter)
 	router.RouteUser(userRouter)
 	router.RouteLogin(e)
