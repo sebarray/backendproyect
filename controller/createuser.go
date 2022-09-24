@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"fmt"
+	"log"
 	"net/http"
 	"os"
 
@@ -14,13 +16,19 @@ func CreateUser(c echo.Context) error {
 	err := c.Bind(&user)
 	if err != nil {
 		c.Error(err)
+		log.Println("error parsing user model")
+		return fmt.Errorf("error parsing user model")
 	}
 	typedb := userdb.GetProvider(os.Getenv("TYPE_DB"))
 	user, err = typedb.CreateUser(user)
 	if err != nil {
-		http.Error(c.Response().Writer, err.Error(), http.StatusConflict)
+		log.Println("error creating user")
+		err = fmt.Errorf("error creating user")
+		http.Error(c.Response().Writer, err.Error(), http.StatusInternalServerError)
+		return err
 	}
 	user.Password = ""
+	log.Println("user create id: ", user.Id)
 	return c.JSON(http.StatusOK, user)
 
 }

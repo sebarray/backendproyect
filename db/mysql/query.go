@@ -52,3 +52,14 @@ func QueryDeckUpdate(deck model.Deck) string {
 	return query
 
 }
+func QueryInsertDeckCard(id, idcard, iddeck, iduser string) string {
+	query := "INSERT INTO deckcard (id, idcard, iddeck,iduser)VALUES"
+	query += fmt.Sprintf("'%s','%s', '%s', '%s');", id, idcard, iddeck, iduser)
+	return query
+}
+
+func QueryReadDeckCard(iduser, iddeck string) string {
+	query := "SELECT idcard, card.title, card.description, card.image, card.iduser FROM deckcard JOIN card ON deckcard.idcard=card.id JOIN deck ON deckcard.iddeck= deck.id"
+	query += fmt.Sprintf("deckcard.iduser= '%s' AND  deckcard.iddeck= '%s';", iduser, iddeck)
+	return query
+}
