@@ -24,7 +24,7 @@ func UserExist(u model.User) (model.User, error) {
 		return user, err
 	}
 	for registry.Next() {
-		err = registry.Scan(&user.Id, &user.Name, &user.Email, &user.Password)
+		err = registry.Scan(&user.Id, &user.Name, &user.Email, &user.Password, &user.State, &user.State)
 		if err != nil {
 
 			return user, err
